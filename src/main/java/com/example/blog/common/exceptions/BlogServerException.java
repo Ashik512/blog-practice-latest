@@ -1,9 +1,11 @@
 package com.example.blog.common.exceptions;
 
 import com.example.blog.common.constants.ApplicationConstant;
+import lombok.Data;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 
+@Data
 public class BlogServerException extends RuntimeException {
 
     private static final long serialVersionUID = 1436995162658277359L;

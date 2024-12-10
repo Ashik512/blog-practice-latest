@@ -57,7 +57,7 @@ public abstract class AbstractController<E extends AbstractDomainBasedEntity, D 
     @Transactional
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<MessageResponse> updateActiveStatus(@PathVariable Long id, @RequestParam("active") Boolean isActive) {
+    public ResponseEntity<MessageResponse> updateActiveStatus(@PathVariable Long id, @RequestParam("isActive") Boolean isActive) {
         service.updateActiveStatus(id, isActive);
         return ResponseEntity.ok(new MessageResponse(ACTIVE_STATUS_CHANGED_SUCCESSFULLY_MESSAGE));
     }

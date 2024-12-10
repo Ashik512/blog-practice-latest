@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoleRepository extends AbstractRepository<Role> {
+    Boolean existsByName(String name);
 }

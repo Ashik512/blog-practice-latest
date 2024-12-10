@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class AbstractDomainBasedEntity implements AbstractEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

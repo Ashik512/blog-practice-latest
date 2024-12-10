@@ -1,0 +1,16 @@
+{
+  "apiErrors": [
+    {
+      "code": "role02",
+      "message": "Role Name already exists"
+    },
+    {
+      "code": "common02",
+      "message": "Active flag is already set as given value"
+    },
+    {
+      "code": "common04",
+      "message": "Data not found for: %s"
+    }
+  ]
+}

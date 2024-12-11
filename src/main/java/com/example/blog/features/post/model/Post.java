@@ -3,13 +3,11 @@ package com.example.blog.features.post.model;
 import com.example.blog.common.entities.AbstractDomainBasedEntity;
 import com.example.blog.features.category.model.Category;
 import com.example.blog.features.user.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor

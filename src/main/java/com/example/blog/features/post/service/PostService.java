@@ -38,57 +38,23 @@ public class PostService extends AbstractSearchService<Post, PostRequestDto, IdQ
 
     @Override
     protected Post convertToEntity(PostRequestDto postRequestDto) {
-        User user = null;
-        Category category = null;
+        User user = findUserById(postRequestDto.getUserId());
+        Category category = findCategoryById(postRequestDto.getCategoryId());
 
-        if(Objects.nonNull(postRequestDto.getUserId())) {
-            user = userRepository.findById(postRequestDto.getUserId()).orElseThrow(() -> new BlogServerException(
-                    ErrorId.USER_NOT_EXISTS,
-                    HttpStatus.BAD_REQUEST,
-                    MDC.get(ApplicationConstant.TRACE_ID)
-            ));
-        }
-
-        if(Objects.nonNull(postRequestDto.getCategoryId())) {
-            category = categoryRepository.findById(postRequestDto.getCategoryId()).orElseThrow(() -> new BlogServerException(
-                    ErrorId.CATEGORY_NOT_EXISTS,
-                    HttpStatus.BAD_REQUEST,
-                    MDC.get(ApplicationConstant.TRACE_ID)
-            ));
-        }
-
-        Post post = new Post();
-
-        post.setTitle(postRequestDto.getTitle());
-        post.setContent(postRequestDto.getContent());
-        post.setImage(postRequestDto.getImage());
-        post.setUser(user);
-        post.setCategory(category);
-
-        return post;
+        return Post.builder()
+                .title(postRequestDto.getTitle())
+                .content(postRequestDto.getContent())
+                .image(postRequestDto.getImage())
+                .user(user)
+                .category(category)
+                .build();
     }
 
     @Override
     protected Post updateEntity(PostRequestDto dto, Post entity) {
 
-        User user = null;
-        Category category = null;
-
-        if(Objects.nonNull(dto.getUserId())) {
-            user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new BlogServerException(
-                    ErrorId.USER_NOT_EXISTS,
-                    HttpStatus.BAD_REQUEST,
-                    MDC.get(ApplicationConstant.TRACE_ID)
-            ));
-        }
-
-        if(Objects.nonNull(dto.getCategoryId())) {
-            category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new BlogServerException(
-                    ErrorId.CATEGORY_NOT_EXISTS,
-                    HttpStatus.BAD_REQUEST,
-                    MDC.get(ApplicationConstant.TRACE_ID)
-            ));
-        }
+        User user = findUserById(dto.getUserId());
+        Category category = findCategoryById(dto.getCategoryId());
 
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
@@ -99,29 +65,34 @@ public class PostService extends AbstractSearchService<Post, PostRequestDto, IdQ
         return entity;
     }
 
+    private User findUserById(Long userId) {
+        if (userId == null) {
+            return null;
+        }
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new BlogServerException(
+                        ErrorId.USER_NOT_EXISTS,
+                        HttpStatus.BAD_REQUEST,
+                        MDC.get(ApplicationConstant.TRACE_ID)
+                ));
+    }
+
+    private Category findCategoryById(Long categoryId) {
+        if (categoryId == null) {
+            return null;
+        }
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new BlogServerException(
+                        ErrorId.CATEGORY_NOT_EXISTS,
+                        HttpStatus.BAD_REQUEST,
+                        MDC.get(ApplicationConstant.TRACE_ID)
+                ));
+    }
+
     @Override
     protected PostResponseDto convertToResponseDto(Post post) {
-
-        User user = post.getUser();
-        UserResponseDto userResponseDto = null;
-
-        if(user != null) {
-            userResponseDto = UserResponseDto.builder()
-                    .id(user.getId())
-                    .name(user.getName())
-                    .role(user.getRole())
-                    .build();
-        }
-
-        Category category = post.getCategory();
-        CategoryResponseDto categoryResponseDto = null;
-
-        if(category != null) {
-            categoryResponseDto = CategoryResponseDto.builder()
-                    .id(category.getId())
-                    .name(category.getName())
-                    .build();
-        }
+        UserResponseDto userResponseDto = convertUserToDto(post.getUser());
+        CategoryResponseDto categoryResponseDto = convertCategoryToDto(post.getCategory());
 
         return PostResponseDto.builder()
                 .title(post.getTitle())
@@ -129,6 +100,29 @@ public class PostService extends AbstractSearchService<Post, PostRequestDto, IdQ
                 .image(post.getImage())
                 .userResponseDto(userResponseDto)
                 .categoryResponseDto(categoryResponseDto)
+                .build();
+    }
+
+    private UserResponseDto convertUserToDto(User user) {
+        if (user == null) {
+            return null;
+        }
+
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .role(user.getRole())
+                .build();
+    }
+
+    private CategoryResponseDto convertCategoryToDto(Category category) {
+        if (category == null) {
+            return null;
+        }
+
+        return CategoryResponseDto.builder()
+                .id(category.getId())
+                .name(category.getName())
                 .build();
     }
 

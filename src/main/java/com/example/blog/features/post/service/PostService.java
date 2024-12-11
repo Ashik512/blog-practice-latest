@@ -137,7 +137,7 @@ public class PostService extends AbstractSearchService<Post, PostRequestDto, IdQ
         CustomSpecification<Post> customSpecification = new CustomSpecification<>();
         return Specification.where(
                 customSpecification.equalSpecificationAtRoot(searchDto.getIsActive(), ApplicationConstant.IS_ACTIVE_FIELD)
-                        .and(customSpecification.likeSpecificationAtPrefixAndSuffix(searchDto.getQuery(), "name"))
+                        .and(customSpecification.likeSpecificationAtPrefixAndSuffix(searchDto.getQuery(), "title"))
         );
     }
 }

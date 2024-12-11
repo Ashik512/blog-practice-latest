@@ -4,6 +4,7 @@ import com.example.blog.common.constants.ErrorId;
 import com.example.blog.common.exceptions.BlogServerException;
 import com.example.blog.common.payloads.request.IdQuerySearchDto;
 import com.example.blog.common.services.AbstractSearchService;
+import com.example.blog.common.specification.CustomSpecification;
 import com.example.blog.features.role.model.Role;
 import com.example.blog.features.role.payload.request.RoleRequestDto;
 import com.example.blog.features.role.payload.response.RoleResponseDto;
@@ -66,6 +67,10 @@ public class RoleService extends AbstractSearchService<Role, RoleRequestDto, IdQ
 
     @Override
     protected Specification<Role> buildSpecification(IdQuerySearchDto searchDto) {
-        return null;
+        CustomSpecification<Role> customSpecification = new CustomSpecification<>();
+        return Specification.where(
+                customSpecification.equalSpecificationAtRoot(searchDto.getIsActive(), ApplicationConstant.IS_ACTIVE_FIELD)
+                        .and(customSpecification.likeSpecificationAtPrefixAndSuffix(searchDto.getQuery(), "name"))
+        );
     }
 }

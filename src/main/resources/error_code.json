@@ -1,8 +1,20 @@
 {
   "apiErrors": [
     {
-      "code": "role02",
-      "message": "Role Name already exists"
+      "code": "cate01",
+      "message": "Category name already exists"
+    },
+    {
+      "code": "cate02",
+      "message": "Category does not exists"
+    },
+    {
+      "code": "user01",
+      "message": "User does not exists"
+    },
+    {
+      "code": "role01",
+      "message": "Role name already exists"
     },
     {
       "code": "common02",
@@ -11,6 +23,10 @@
     {
       "code": "common04",
       "message": "Data not found for: %s"
+    },
+    {
+      "code": "a40002",
+      "message": "Role dost not exists"
     }
   ]
 }

@@ -5,11 +5,10 @@ import com.example.blog.features.role.model.Role;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import lombok.*;
+
+@Builder
 @Entity
 @Getter
 @Setter
@@ -23,7 +22,7 @@ public class User extends AbstractDomainBasedEntity {
     private String name;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(max = 20)
     private String password;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -68,7 +68,6 @@ public abstract class AbstractService<E extends AbstractDomainBasedEntity, D ext
         saveItem(e);
     }
 
-
     // Returns only active data
     public E findById(Long id) {
         return findOptionalById(id, true).orElseThrow(() -> buildException(ErrorId.NOT_FOUND_DYNAMIC,

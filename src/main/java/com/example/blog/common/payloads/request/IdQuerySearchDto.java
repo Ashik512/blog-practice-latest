@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IdQuerySearchDto implements SDto {
-    private String query;
     private Long id;
+    private String query;
     private Boolean isActive = true;
 }

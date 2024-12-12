@@ -27,6 +27,14 @@
     {
       "code": "a40002",
       "message": "Role dost not exists"
+    },
+    {
+      "code": "post01",
+      "message": "Post dost not exists"
+    },
+    {
+      "code": "comment01",
+      "message": "Parent comment dost not exists"
     }
   ]
 }

@@ -12,10 +12,12 @@ public class ErrorId {
     public static final String ROLE_NAME_ALREADY_EXISTS = "role01";
     public static final String CATEGORY_NAME_ALREADY_EXISTS = "cate01";
     public static final String CATEGORY_NOT_EXISTS = "cate02";
+    public static final String POST_NOT_EXISTS = "post01";
     public static final String COMMON_FIELD_ERROR = "field01";
     public static final String SYSTEM_ERROR = "a4000";
     public static final String INVALID_DATA_FORMAT_EXCEPTION = "a5000";
     public static final String ROLE_NOT_EXISTS = "a40002";
     public static final String USER_NOT_EXISTS = "user01";
+    public static final String PARENT_COMMENT_NOT_EXISTS = "comment01";
 
 }

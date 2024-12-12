@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class PostResponseDto {
+    private Long id;
     private String title;
     private String content;
     private String image;

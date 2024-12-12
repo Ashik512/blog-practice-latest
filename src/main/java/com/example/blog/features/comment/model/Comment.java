@@ -26,14 +26,14 @@ public class Comment extends AbstractDomainBasedEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
-    private Post postId;
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
-    private Comment parentCommentId;
+    private Comment parentComment;
 
 }

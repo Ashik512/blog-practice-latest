@@ -95,6 +95,7 @@ public class PostService extends AbstractSearchService<Post, PostRequestDto, IdQ
         CategoryResponseDto categoryResponseDto = convertCategoryToDto(post.getCategory());
 
         return PostResponseDto.builder()
+                .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .image(post.getImage())

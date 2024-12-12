@@ -25,11 +25,11 @@ public class Comment extends AbstractDomainBasedEntity {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User userId;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", nullable = false)
     private Post postId;
 
     @ManyToOne

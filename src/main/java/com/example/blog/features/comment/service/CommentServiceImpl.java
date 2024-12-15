@@ -137,14 +137,4 @@ public class CommentServiceImpl implements CommentService {
         return comment;
     }
 
-    private CommentResponseDto convertToResponseDto(Comment comment) {
-        CommentResponseDto commentResponseDto = new CommentResponseDto();
-
-        commentResponseDto.setComment(comment.getComment());
-        commentResponseDto.setUserId(comment.getUser().getId());
-        commentResponseDto.setUserName(comment.getUser().getName());
-        // commentResponseDto.setReplies();
-
-        return commentResponseDto;
-    }
 }

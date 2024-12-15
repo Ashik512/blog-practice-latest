@@ -87,13 +87,13 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long commentId, Long userId) {
         // Fetch the comment
         Comment comment = findCommentById(commentId);
-        // Checking if user exists or not in db
+        // Check if user exists or not in db
         findUserById(userId);
 
         // Check if the user is the owner
         if (!comment.getUser().getId().equals(userId)) {
             throw new BlogServerException(
-                    ErrorId.UNAUTHORIZED_ACTION,
+                    ErrorId.UNAUTHORIZED_DELETE_ACTION,
                     HttpStatus.FORBIDDEN,
                     MDC.get(ApplicationConstant.TRACE_ID)
             );

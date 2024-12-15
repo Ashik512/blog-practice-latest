@@ -18,6 +18,8 @@ public class ErrorId {
     public static final String INVALID_DATA_FORMAT_EXCEPTION = "a5000";
     public static final String ROLE_NOT_EXISTS = "a40002";
     public static final String USER_NOT_EXISTS = "user01";
-    public static final String PARENT_COMMENT_NOT_EXISTS = "comment01";
+    public static final String COMMENT_NOT_EXISTS = "comment01";
+    public static final String UNAUTHORIZED_ACTION = "un01";
+    public static final String UNAUTHORIZED_UPDATE_ACTION = "un02";
 
 }

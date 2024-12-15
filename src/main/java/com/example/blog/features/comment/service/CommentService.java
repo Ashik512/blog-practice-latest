@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface CommentService {
 
-    void createComment(CommentRequestDto commentRequestDto);
+    void createComment(Long postId, Long userId, CommentRequestDto commentRequestDto);
+    void updateComment(Long commentId, Long userId, CommentRequestDto commentRequestDto);
     CommentWithPostResponseDto getAllCommentWithPostByPostID(Long postId);
+    void deleteComment(Long commentId, Long userId);
 
 }

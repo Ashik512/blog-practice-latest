@@ -39,11 +39,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void createComment(CommentRequestDto commentRequestDto) {
+    public void createComment(Long postId, Long userId, CommentRequestDto commentRequestDto) {
 
-        Post post = findPostById(commentRequestDto.getPostId());
-        User user = findUserById(commentRequestDto.getUserId());
-        Comment parentComment = findParentCommentById(commentRequestDto.getParentCommentId());
+        Post post = findPostById(postId);
+        User user = findUserById(userId);
+        Comment parentComment = findCommentById(commentRequestDto.getParentCommentId());
 
         Comment comment = convertToEntity(commentRequestDto, post, user, parentComment);
 
@@ -52,6 +52,55 @@ public class CommentServiceImpl implements CommentService {
         } catch (Exception e) {
             throw BlogServerException.dataSaveException(Helper.createDynamicCode(ErrorId.DATA_NOT_SAVED_DYNAMIC, "Comment"));
         }
+    }
+
+    @Override
+    @Transactional
+    public void updateComment(Long commentId, Long userId, CommentRequestDto commentRequestDto) {
+
+        // Checking if user exists or not in db
+        findUserById(userId);
+
+        // Fetch the existing comment
+        Comment existingComment = findCommentById(commentId);
+
+        // Verify that the user is the owner of the comment
+        if (!existingComment.getUser().getId().equals(userId)) {
+            throw new BlogServerException(
+                    ErrorId.UNAUTHORIZED_UPDATE_ACTION,
+                    HttpStatus.FORBIDDEN,
+                    MDC.get(ApplicationConstant.TRACE_ID)
+            );
+        }
+
+        // Update the comment content
+        existingComment.setComment(commentRequestDto.getComment());
+
+        try {
+            commentRepository.save(existingComment);
+        } catch (Exception e) {
+            throw BlogServerException.dataSaveException(Helper.createDynamicCode(ErrorId.DATA_NOT_SAVED_DYNAMIC, "Comment"));
+        }
+    }
+
+    @Override
+    public void deleteComment(Long commentId, Long userId) {
+        // Fetch the comment
+        Comment comment = findCommentById(commentId);
+        // Checking if user exists or not in db
+        findUserById(userId);
+
+        // Check if the user is the owner
+        if (!comment.getUser().getId().equals(userId)) {
+            throw new BlogServerException(
+                    ErrorId.UNAUTHORIZED_ACTION,
+                    HttpStatus.FORBIDDEN,
+                    MDC.get(ApplicationConstant.TRACE_ID)
+            );
+        }
+
+        // Delete the comment
+        commentRepository.delete(comment);
     }
 
     @Override
@@ -81,19 +130,6 @@ public class CommentServiceImpl implements CommentService {
         return new CommentWithPostResponseDto(postId, post.getTitle(), topLevelComments);
     }
 
-    private CommentResponseDto mapToCommentDTOWithReplies(Comment comment, Map<Long, List<Comment>> commentsByParentId) {
-        return new CommentResponseDto(
-                comment.getId(),
-                comment.getUser().getId(),
-                comment.getUser().getName(),
-                comment.getComment(),
-                commentsByParentId.getOrDefault(comment.getId(), Collections.emptyList())
-                        .stream()
-                        .map(childComment -> mapToCommentDTOWithReplies(childComment, commentsByParentId))
-                        .collect(Collectors.toList())
-        );
-    }
-
     private Post findPostById(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new BlogServerException(
@@ -112,12 +148,12 @@ public class CommentServiceImpl implements CommentService {
                 ));
     }
 
-    private Comment findParentCommentById(Long parentCommentId) {
+    private Comment findCommentById(Long parentCommentId) {
         Comment parentComment = null;
 
         if (parentCommentId != null) {
             parentComment = commentRepository.findById(parentCommentId).orElseThrow(() -> new BlogServerException(
-                    ErrorId.PARENT_COMMENT_NOT_EXISTS,
+                    ErrorId.COMMENT_NOT_EXISTS,
                     HttpStatus.BAD_REQUEST,
                     MDC.get(ApplicationConstant.TRACE_ID)
             ));
@@ -135,6 +171,19 @@ public class CommentServiceImpl implements CommentService {
         comment.setParentComment(parentComment);
 
         return comment;
+    }
+
+    private CommentResponseDto mapToCommentDTOWithReplies(Comment comment, Map<Long, List<Comment>> commentsByParentId) {
+        return new CommentResponseDto(
+                comment.getId(),
+                comment.getUser().getId(),
+                comment.getUser().getName(),
+                comment.getComment(),
+                commentsByParentId.getOrDefault(comment.getId(), Collections.emptyList())
+                        .stream()
+                        .map(childComment -> mapToCommentDTOWithReplies(childComment, commentsByParentId))
+                        .collect(Collectors.toList())
+        );
     }
 
 }

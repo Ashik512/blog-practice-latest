@@ -34,7 +34,15 @@
     },
     {
       "code": "comment01",
-      "message": "Parent comment dost not exists"
+      "message": "Comment dost not exists"
+    },
+    {
+      "code": "un01",
+      "message": "Unauthorized to delete this comment"
+    },
+    {
+      "code": "un02",
+      "message": "Unauthorized to update this comment"
     }
   ]
 }

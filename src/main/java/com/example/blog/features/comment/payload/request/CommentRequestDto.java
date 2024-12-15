@@ -14,9 +14,5 @@ import javax.validation.constraints.NotNull;
 public class CommentRequestDto {
     @NotNull(message = "comment must not be null")
     private String comment;
-    @NotNull(message = "User-Id must not be null")
-    private Long userId;
-    @NotNull(message = "Post-Id must not be null")
-    private Long postId;
     private Long parentCommentId;
 }

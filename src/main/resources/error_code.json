@@ -43,6 +43,10 @@
     {
       "code": "un02",
       "message": "Unauthorized to update this comment"
+    },
+    {
+      "code": "a50002",
+      "message": "Invalid user name or password."
     }
   ]
 }

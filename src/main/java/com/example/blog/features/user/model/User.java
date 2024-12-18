@@ -4,7 +4,6 @@ import com.example.blog.common.entities.AbstractDomainBasedEntity;
 import com.example.blog.features.role.model.Role;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import lombok.*;
 
@@ -16,13 +15,11 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "users")
 public class User extends AbstractDomainBasedEntity {
-    @NotBlank
-    @Size(max = 20)
+    @NotBlank(message = "username must not be blank")
     @Column(unique = true)
     private String name;
 
-    @NotBlank
-    @Size(max = 20)
+    @NotBlank(message = "password must not be blank")
     private String password;
 
     @ManyToOne(fetch = FetchType.EAGER)

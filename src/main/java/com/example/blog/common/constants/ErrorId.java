@@ -21,5 +21,6 @@ public class ErrorId {
     public static final String COMMENT_NOT_EXISTS = "comment01";
     public static final String UNAUTHORIZED_DELETE_ACTION = "un01";
     public static final String UNAUTHORIZED_UPDATE_ACTION = "un02";
+    public static final String INVALID_USER_NAME_OR_PASSWORD = "a50002";
 
 }
